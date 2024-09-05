@@ -1,18 +1,36 @@
-// Import Express
 const express = require('express');
-
-// Create an instance of Express
 const app = express();
+const port = 3000; // or any port you choose
 
-// Define the port
-const PORT = process.env.PORT || 3000;
+// Import the database pool
+const pool = require('./database/db-config');
 
-// Create a basic route for the home page
-app.get('/', (req, res) => {
-  res.send('Welcome to the E-commerce API');
+// Middleware
+app.use(express.json());
+
+// Example route to test database connection
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()'); // Test query
+    res.json({ time: result.rows[0] });
+  } catch (err) {
+    console.error('Database query error:', err);
+    res.status(500).send('Database query error');
+  }
 });
 
+// Route to get all products
+app.get('/products', async (req, res) => {
+    try {
+      const result = await pool.query('SELECT * FROM products');
+      res.json(result.rows);
+    } catch (err) {
+      console.error('Database query error:', err);
+      res.status(500).send('Database query error');
+    }
+  });
+
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
 });
