@@ -1,12 +1,28 @@
 const express = require('express');
+const passport = require('passport');
 const app = express();
 const port = 3000; // or any port you choose
 
 // Import the database pool
-const pool = require('./database/db-config');
+const pool = require('./db-config');
+
+// Import Passport configuration
+require('./config/passport-config')(passport);
+
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(passport.initialize());
+
+// Import routes
+const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
+
+// Use routes
+app.use('/api', userRoutes);
+app.use('/api', authRoutes);
+
 
 // Example route to test database connection
 app.get('/test-db', async (req, res) => {
