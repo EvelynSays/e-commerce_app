@@ -1,40 +1,40 @@
 ### **1. User Management**
 
-- [ ] **Register a New User**
+- [x] **Register a New User**
   - **POST** `/api/users`
   - Description: Register a new user with required details.
 
-- [ ] **Get User Details**
+- [x] **Get User Details**
   - **GET** `/api/users/:id`
   - Description: Retrieve details of a specific user by their ID.
 
-- [ ] **Update User Information**
+- [x] **Update User Information**
   - **PUT** `/api/users/:id`
   - Description: Update information of a specific user by their ID.
 
-- [ ] **Delete a User**
+- [x] **Delete a User**
   - **DELETE** `/api/users/:id`
   - Description: Remove a specific user by their ID.
 
 ### **2. Product Management**
 
-- [ ] **Get All Products**
+- [x] **Get All Products**
   - **GET** `/api/products`
   - Description: Retrieve a list of all products.
 
-- [ ] **Get Product Details**
+- [x] **Get Product Details**
   - **GET** `/api/products/:id`
   - Description: Retrieve details of a specific product by its ID.
 
-- [ ] **Add a New Product**
+- [x] **Add a New Product**
   - **POST** `/api/products`
   - Description: Add a new product to the catalog.
 
-- [ ] **Update Product Information**
+- [x] **Update Product Information**
   - **PUT** `/api/products/:id`
   - Description: Update details of a specific product by its ID.
 
-- [ ] **Delete a Product**
+- [x] **Delete a Product**
   - **DELETE** `/api/products/:id`
   - Description: Remove a specific product by its ID.
 
