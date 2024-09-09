@@ -1,8 +1,8 @@
-# My API Documentation
+# E-Commerce App
 
 ## Introduction
 
-Welcome to the API documentation for our project. This README will guide you on how to view and interact with the API documentation using Swagger UI or other tools.
+Welcome to the API documentation for my e-commerce API. This README will guide you on how to view and interact with the API documentation using Swagger UI or other tools.
 
 ## Viewing the API Documentation
 
