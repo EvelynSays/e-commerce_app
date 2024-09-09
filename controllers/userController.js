@@ -52,12 +52,12 @@ exports.getUserById = async (req, res) => {
     }
 };
 
-// Handle updating user information
+// Handle updating user information, including password
 exports.updateUser = async (req, res) => {
     const userId = req.params.id;
-    const { name, email, password } = req.body;
+    const { name, email, currentPassword, newPassword } = req.body;
 
-    if (!name && !email && !password) {
+    if (!name && !email && !currentPassword && !newPassword) {
         return res.status(400).json({ error: 'At least one field is required for update' });
     }
 
@@ -70,18 +70,28 @@ exports.updateUser = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        // Handle password update
+        if (currentPassword && newPassword) {
+            // Verify current password
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ error: 'Current password is incorrect' });
+            }
+
+            // Hash new password
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, userId]);
+        }
+
         // Build the update query
         const updates = [];
         if (name) updates.push(`name = '${name}'`);
         if (email) updates.push(`email = '${email}'`);
-        if (password) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            updates.push(`password = '${hashedPassword}'`);
+
+        if (updates.length > 0) {
+            const updateQuery = `UPDATE users SET ${updates.join(', ')} WHERE id = $1`;
+            await pool.query(updateQuery, [userId]);
         }
-
-        const updateQuery = `UPDATE users SET ${updates.join(', ')} WHERE id = $1`;
-
-        await pool.query(updateQuery, [userId]);
 
         res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
@@ -89,6 +99,7 @@ exports.updateUser = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 // Handle deleting a user
 exports.deleteUser = async (req, res) => {

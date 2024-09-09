@@ -8,9 +8,8 @@ router.post('/register', userController.registerUser);
 // GET route for retrieving user by ID
 router.get('/:id', userController.getUserById); 
 
-// PUT route for updating user by ID
-router.put('/:id', userController.updateUser);
-module.exports = router;
+// Update user route
+router.put('/:id', passport.authenticate('local', { session: true }), updateUser);
 
 // DELETE route for deleting user by ID
 router.delete('/:id', userController.deleteUser);
