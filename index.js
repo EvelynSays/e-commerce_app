@@ -19,11 +19,13 @@ app.use(passport.initialize());
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
+const cartRoutes = require('./routes/cart');
 
 // Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/carts', cartRoutes); 
 
 // Example route to test database connection
 app.get('/test-db', async (req, res) => {
